@@ -36,7 +36,8 @@ pub fn part2(filepath: &Path) -> Result<i64, Error> {
             .split_whitespace()
             .map(
                 |s| s.parse::<i64>()
-                .map_err(|e| Error::new(ErrorKind::InvalidData, e)))
+                .map_err(|e| Error::new(ErrorKind::InvalidData, e))
+            )
             .collect::<Result<Vec<_>, _>>()?;
             Ok::<(i64, i64), Error>((nums[0], nums[1]))
         }
