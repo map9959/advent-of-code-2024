@@ -1,17 +1,13 @@
 use std::collections::HashMap;
-use std::io::BufReader;
-use std::io::BufRead;
 use std::io::Error;
 use std::io::ErrorKind;
 use std::vec::Vec;
-use std::fs::read_to_string;
-use std::fs::File;
-use std::path::Path;
 use std::iter::zip;
 
-pub fn part1(filepath: &Path) -> i64{
-    let contents: String = read_to_string(filepath).expect("File not found.");
-    let lines = contents.lines();
+
+#[aoc(day1, part1)]
+pub fn part1(input: &str) -> i64{
+    let lines = input.lines();
     let mut vec1: Vec<i64> = Vec::new();
     let mut vec2: Vec<i64> = Vec::new();
     for l in lines{
@@ -27,12 +23,11 @@ pub fn part1(filepath: &Path) -> i64{
     return total_dist;
 }
 
-pub fn part2(filepath: &Path) -> Result<i64, Error> {
-    let file: File = File::open(filepath)?;
-    let reader: BufReader<File> = BufReader::new(file);
-    let (mut vec1, mut vec2): (Vec<i64>, Vec<i64>) = reader.lines().map(
+#[aoc(day1, part2)]
+pub fn part2(input: &str) -> Result<i64, Error> {
+    let (mut vec1, mut vec2): (Vec<i64>, Vec<i64>) = input.lines().map(
         |line| {
-            let nums: Vec<i64> = line?
+            let nums: Vec<i64> = line
             .split_whitespace()
             .map(
                 |s| s.parse::<i64>()
@@ -49,6 +44,6 @@ pub fn part2(filepath: &Path) -> Result<i64, Error> {
     for i in vec2{
         *occurrences.entry(i).or_insert(0) += 1;
     }
-    let similarities = vec1.iter().map(|i| i*occurrences.get(i).unwrap_or(&0)).sum();
+    let similarities: i64 = vec1.iter().map(|i| i*occurrences.get(i).unwrap_or(&0)).sum();
     return Ok(similarities);
 }
